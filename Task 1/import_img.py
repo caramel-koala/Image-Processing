@@ -11,13 +11,17 @@ def import_img(filename):
     
     raw = o1.readlines()
     
-    imgtxt = raw[3:len(raw)]
     sizetxt = raw[2]
+    maxtxt = raw[3]    
+    imgtxt = raw[4:len(raw)]
     sizetxt = sizetxt.split(' ')
     
     size = map(int,sizetxt)
+    mx = int(maxtxt)
     img = map(int,imgtxt)
     
-    pixels = [img[3*i:3*(i+1)] for i in range(len(img)/3 + 1)]
+    pixels = [img[3*i:3*(i+1)] for i in range(len(img)/3)]
     
-    return [size, pixels]
+    o1.close    
+    
+    return [size,mx,pixels]
