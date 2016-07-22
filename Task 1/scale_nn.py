@@ -13,18 +13,22 @@ import math
 
 xscale = 2
 yscale = 2
+
+nsize = [int(size[0]*xscale), int(size[1]*yscale)]
     
-header = "P3\n{0} {1}\n{2}\n".format(size[0]*xscale,size[1]*yscale,mx)
+header = "P3\n{0} {1}\n{2}\n".format(nsize[0],nsize[1],mx)
 
 nn = open('o1_scale_nn.ppm','w')
 
 nn.write(header)
 
-q = []
+q = [0]*nsize[0]*nsize[1]
 
-for i in range(size[0]*xscale):
-    for j in range(size[1]*yscale):
-        q[(i*xscale*size[0])+j] = pixels[ int(math.floor(i*yscale*size[0]*xscale + xscale*j)) ]
+for i in range(nsize[1]):
+    for j in range(nsize[0]):
+        x = j / xscale
+        y = i / yscale
+        q[(i*nsize[0])+j] = pixels[ int(math.floor(y*size[0]+x)) ]
         
 for p in q:
     nn.write("{0}\n{1}\n{2}\n".format(p[0],p[1],p[2]))
