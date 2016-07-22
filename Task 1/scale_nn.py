@@ -7,12 +7,10 @@ Created on Thu Jul 21 15:27:11 2016
 
 import import_img  as ii
 
-import math
-
 [size,mx,pixels] = ii.import_img('original.ppm')
 
-xscale = 2
-yscale = 2
+xscale = 5.5
+yscale = 5.5
 
 nsize = [int(size[0]*xscale), int(size[1]*yscale)]
     
@@ -26,9 +24,9 @@ q = [0]*nsize[0]*nsize[1]
 
 for i in range(nsize[1]):
     for j in range(nsize[0]):
-        x = j / xscale
-        y = i / yscale
-        q[(i*nsize[0])+j] = pixels[ int(math.floor(y*size[0]+x)) ]
+        x = int(j / xscale)
+        y = int(i / yscale)
+        q[(i*nsize[0])+j] = pixels[y*size[0]+x]
         
 for p in q:
     nn.write("{0}\n{1}\n{2}\n".format(p[0],p[1],p[2]))

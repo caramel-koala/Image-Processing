@@ -9,8 +9,8 @@ import import_img  as ii
 
 [size,mx,pixels] = ii.import_img('original.ppm')
 
-xscale = 2.1
-yscale = 2.1
+xscale = 5.5
+yscale = 5.5
 
 nsize = [int(size[0]*xscale), int(size[1]*yscale)]
     
