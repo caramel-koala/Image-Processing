@@ -18,10 +18,17 @@ def import_vid(vid):
                 '-vcodec', 'rawvideo', '-']
     pipe = sp.Popen(command, stdout = sp.PIPE, bufsize=10**8)
     
-    raw_image = pipe.stdout.read(320*240)
-    # transform the byte read into a numpy array
-    image =  numpy.fromstring(raw_image, dtype='uint8')
-    image = image.reshape((320,240))
-    # throw away the data in the pipe's buffer.
-    pipe.stdout.flush()
-    return image
+    video = []
+    
+    while True:
+        raw_image = pipe.stdout.read(320*240*3)
+        if not raw_image: break
+        # transform the byte read into a numpy array
+        image =  numpy.fromstring(raw_image, dtype='uint8')
+        image = image.reshape((320,240,3))
+        # throw away the data in the pipe's buffer.
+        pipe.stdout.flush()
+        video.append(image)
+        
+        
+    return video

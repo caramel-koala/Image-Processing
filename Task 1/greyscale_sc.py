@@ -7,7 +7,7 @@ Created on Wed Jul 20 09:42:25 2016
 
 import import_img  as ii
 
-[size,mx,pixels] = ii.import_img('original.ppm')
+[size,mx,pixels] = ii.import_img('orignial1.ppm')
     
 header = "P2\n{0} {1}\n{2}\n".format(size[0],size[1],mx)
 
