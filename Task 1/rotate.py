@@ -6,6 +6,7 @@ Created on Fri Jul 22 11:43:34 2016
 """
 
 import import_img  as ii
+import sys
 
 import math
 
@@ -13,19 +14,22 @@ import math
 
 c       = [int(size[0]/2),int(size[1]/2)]
 angle   = 225
-rad     = (angle/float(180))*math.pi
+rad     = ((360-angle)/float(180))*math.pi
 
-nsize   = [int(math.ceil(abs(size[0]*math.cos(rad)+size[1]*math.sin(rad)))),int(math.ceil(abs(size[1]*math.cos(rad)+size[0]*math.sin(rad))))]
+nsize   = [int(math.ceil(abs(size[0]*math.cos(rad))+abs(size[1]*math.sin(rad)))),int(math.ceil(abs(size[1]*math.cos(rad))+abs(size[0]*math.sin(rad))))]
 cn      = [int(nsize[0]/2),int(nsize[1]/2)]
 cdiff   = [cn[0]-c[0],cn[1]-c[1]]
 
 q       = [[0,0,0]]*(nsize[0]*nsize[1])
 
-for i in range(size[1]):
-    for j in range(size[0]):
-        x2 = int(math.cos(rad)*(j-c[0]) - math.sin(rad)*(i-c[1])) + c[0]-1
-        y2 = int(math.sin(rad)*(j-c[0]) + math.cos(rad)*(i-c[1])) + c[1]-1
-        q[(y2+cdiff[1])*nsize[0]+x2+cdiff[0]] = pixels[i*size[0]+j]
+for i in range(nsize[1]):
+    for j in range(nsize[0]):
+        x2 = int(math.cos(rad)*(j-cn[0]) - math.sin(rad)*(i-cn[1])) + cn[0]-1
+        y2 = int(math.sin(rad)*(j-cn[0]) + math.cos(rad)*(i-cn[1])) + cn[1]-1
+        try:
+            q[i*nsize[0]+j] = pixels[(y2-cdiff[1])*size[0]+x2-cdiff[0]]
+        except:
+            e = sys.exc_info()[0]
         
         
 header = "P3\n{0} {1}\n{2}\n".format(nsize[0],nsize[1],mx)
