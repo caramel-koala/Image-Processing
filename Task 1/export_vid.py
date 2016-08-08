@@ -41,11 +41,15 @@ def export_vid(vid,array):
     import cv2
     
     # Define the codec and create VideoWriter object
-    fourcc = cv2.cv.CV_FOURCC(*'MPEG')
-    out = cv2.VideoWriter(vid,fourcc, 20.0, (320,240))
+    fourcc = cv2.cv.CV_FOURCC(*'MPG4')
+    # out = cv2.VideoWriter(vid,fourcc, 20.0, (320,240))
     
-    for frame in array:
-        out.write(frame)
+    # for frame in array:
+    #     out.write(frame)
+    
+    writer = cv2.VideoWriter('video2.mp4',fourcc, 25, (320, 240), False)
+    for i in array:
+        writer.write(i)
     
     # Release everything if job is finished
-    out.release()
+    #writer.release()
