@@ -47,7 +47,7 @@ def export_vid(vid,array):
     # for frame in array:
     #     out.write(frame)
     
-    writer = cv2.VideoWriter('video2.mp4',fourcc, 25, (320, 240), False)
+    writer = cv2.VideoWriter('video2.mp4',fourcc, 25, (640, 360), False)
     for i in array:
         writer.write(i)
     
