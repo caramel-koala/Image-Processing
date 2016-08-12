@@ -6,27 +6,27 @@ Created on Wed Aug 10 15:30:27 2016
 """
 
 import import_vid as iv
-import export_vid as ev
+import os
 
 vid = iv.import_vid('video1.mp4')
 
 back = vid[0]
 
-thresh = 20
+thresh = 200
 
-sub = []
-
-for frame in vid:
-    temp = []
-    for i in range(len(frame)):
-        rtemp = []
-        for j in range(len(frame[i])):
-            diff = abs((back[i][j][0]+back[i][j][1]+back[i][j][2])-(frame[i][j][0]+frame[i][j][1]+frame[i][j][2]))
+for h in range(len(vid)):
+    header = "P3\n{0} {1}\n{2}\n".format(640,360,255)
+    filename = 'Frames/back_sub{0}.ppm'.format(str(h).zfill(4))
+    fwrite = open(filename,'w')
+    fwrite.write(header)
+    
+    for i in range(len(vid[h])):
+        for j in range(len(vid[h][i])):
+            diff = abs((back[i][j][0]+back[i][j][1]+back[i][j][2])-(vid[h][i][j][0]+vid[h][i][j][1]+vid[h][i][j][2]))
             if diff > thresh:
-                rtemp.append(frame[i][j])
+                fwrite.write("{0}\n{1}\n{2}\n".format(vid[h][i][j][0],vid[h][i][j][1],vid[h][i][j][2]))
             else:
-                rtemp.append([0,0,0])
-        temp.append(rtemp)
-    sub.append(temp)
+                fwrite.write("0\n0\n0\n")
 
-ev.export_vid(sub,'back_sub')
+os.system("ffmpeg -f image2 -i Frames/back_sub%04d.ppm back_sub.mp4")
+os.system("rm Frames/back_sub*")
