@@ -13,7 +13,7 @@ vid = iv.import_vid('video1.mp4')
 B   = vid[0]
 a   = 0.9
 
-thresh = 25
+thresh = 15
 
 for h in xrange(len(vid)):
     header = "P3\n{0} {1}\n{2}\n".format(640,360,255)
