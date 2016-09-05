@@ -49,9 +49,9 @@ for i in xrange(1,22):
     for s in sq:
         sw  = dist(s[0],s[1])
         sh  = dist(s[1],s[2])
-        if (nearly_equal(sh/sw,4)) or (nearly_equal(sw/sh,4)):
+        if (nearly_equal(sh/sw,1.33)) or (nearly_equal(sw/sh,1.33)):
             cv2.rectangle(img,tuple(s[0]),tuple(s[2]),(255,0,0),2)
             break
         
-    cv2.imwrite('score{0}.jpg'.format(str(i).zfill(2)),img)
+    cv2.imwrite('Score/score{0}.jpg'.format(str(i).zfill(2)),img)
     
