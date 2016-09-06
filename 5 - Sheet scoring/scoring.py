@@ -43,15 +43,30 @@ def dist(x,y):
     return np.sqrt((x[0]-y[0])**2 + (x[1]-y[1])**2);
 ###############################################################################
 for i in xrange(1,22):
-    img = cv2.imread('Sheets/MCQ_600dpi_2016-{0}.png'.format(str(i).zfill(2)))
-    sq = find_squares(img)
+    img = cv2.imread('Sheets/MCQ_600dpi_2016-{0}.png'.format(str(i).zfill(2)),cv2.CV_LOAD_IMAGE_GRAYSCALE)
+    #sq = find_squares(img)
+    #r = 1.33 #width to height ratio
+    #for s in sq:
+    #    sw  = dist(s[0],s[1])
+    #    sh  = dist(s[1],s[2])
+    #    if (nearly_equal(sh/sw,r)) or (nearly_equal(sw/sh,r)):
+    #        cv2.rectangle(img,tuple(s[0]),tuple(s[2]),(255,0,0),2)
+    #        break
+
+    template = cv2.imread('marker.png',0)
+    w, h = template.shape[::-1] 
     
-    for s in sq:
-        sw  = dist(s[0],s[1])
-        sh  = dist(s[1],s[2])
-        if (nearly_equal(sh/sw,1.33)) or (nearly_equal(sw/sh,1.33)):
-            cv2.rectangle(img,tuple(s[0]),tuple(s[2]),(255,0,0),2)
-            break
-        
+#    thi = cv2.adaptiveThreshold(img,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,\
+#             cv2.THRESH_BINARY,11,2)
+#             
+#    tht = cv2.adaptiveThreshold(img,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,\
+#             cv2.THRESH_BINARY,11,2)
+    
+    res = cv2.matchTemplate(img,template,cv2.TM_CCOEFF_NORMED)
+    threshold = 0.8
+    loc = np.where( res >= threshold)
+    for pt in zip(*loc[::-1]):
+        cv2.rectangle(img, pt, (pt[0] + w, pt[1] + h), (0,0,255), 2)
+    
     cv2.imwrite('Score/score{0}.jpg'.format(str(i).zfill(2)),img)
     
